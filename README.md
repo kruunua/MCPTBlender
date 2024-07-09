@@ -11,7 +11,7 @@ Requirements:
 - External libraries:
   - Intel Open Image Denoise (OIDN) 2.0.1
   - OpenEXR 3.2.0
-  - NVIDIA OptiX SDK 8.0.0 (optional)
+  - NVIDIA OptiX SDK 8.0.0
   - NVIDIA CUDA Toolkit 12.1
 
 Build Instructions:
@@ -56,7 +56,7 @@ Directories:
 - `include/`: Contains the header files for the project.
 - `build/`: Directory where CMake builds the project.
 - `oidn-2.0.1/`, `openexr-3.2.0/`: External library directories.
-- `C:/ProgramData/NVIDIA Corporation/OptiX SDK 8.0.0/`, `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/`: Optional SDK directories.
+- `C:/ProgramData/NVIDIA Corporation/OptiX SDK 8.0.0/`, `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/`: SDK directories.
 
 External Libraries:
 --------------------
