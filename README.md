@@ -55,13 +55,13 @@ Directories:
 - `src/`: Contains the source files for the project.
 - `include/`: Contains the header files for the project.
 - `build/`: Directory where CMake builds the project.
-- `oidn-2.0.1.x64.windows/`, `openexr-3.2.0/`: External library directories.
+- `oidn-2.0.1/`, `openexr-3.2.0/`: External library directories.
 - `C:/ProgramData/NVIDIA Corporation/OptiX SDK 8.0.0/`, `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/`: Optional SDK directories.
 
 External Libraries:
 --------------------
 - By default, the project looks for OpenEXR and OIDN libraries in the following directories relative to the project root:
-- `oidn-2.0.1.x64.windows/`
+- `oidn-2.0.1/`
 - `openexr-3.2.0/`
 
 If you have these libraries installed elsewhere, you can modify the paths in `CMakeLists.txt` accordingly.
