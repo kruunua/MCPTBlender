@@ -40,8 +40,8 @@ help:
                          "(default true)" << std::endl;
             std::cout << "   -n-         do not use normal "
                          "(default true)" << std::endl;
-            std::cout << "   -o          apply oidn on estimates "
-                         "(default Gaussian Blur)" << std::endl;
+            std::cout << "   -o          apply OIDN on estimates "
+                         "(default Gaussian blur)" << std::endl;
             std::cout << "   -u N        denoise until N "
                          "(default last)" << std::endl;
             std::cout << "   -c          recalculate all "
