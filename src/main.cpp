@@ -296,47 +296,34 @@ help:
                 + "spp.slope.exr";
         std::string interceptPath = path + "/" + fileName + "_" + sppStr
                 + "spp.intercept.exr";
-        std::vector<CurveParam> curveParams;
-        if(!recalcAll)
-            curveParams = ImageLoader::loadCurves(slopePath, interceptPath, w, h);
+        std::vector<CurveParam> curveParams = CurvePredictor::calcCurves(
+                    varsVec, spp.data());
+        ImageLoader::saveExr(curveParams, w, h, slopePath, interceptPath); // For debug
 
-        if(curveParams.empty())
-        {
-            curveParams = CurvePredictor::calcCurves(varsVec, spp.data());
-            ImageLoader::saveExr(curveParams, w, h, slopePath, interceptPath);
-        }
         // 11. Calculate weights
         std::string weightsPath = path + "/" + fileName + "_" + sppStr
                 + "spp.weights.exr";
-        std::vector<int> weights;
-        if(!recalcAll)
-            weights = ImageLoader::loadWeights(weightsPath, w, h);
-
-        if(weights.empty())
+        std::vector<int> weights(var.size(), 0);
+        for(size_t j = 0; j < weights.size(); j++)
         {
-            weights.resize(var.size(), 0);
-            for(size_t j = 0; j < weights.size(); j++)
-            {
-                float s = filteredSure[j];
-                float v = filteredVar[j];
+            float s = filteredSure[j];
+            float v = filteredVar[j];
 
-                if(!std::isnormal(s)) s = 0;
-                if(!std::isnormal(v)) v = 0;
+            if(!std::isnormal(s)) s = 0;
+            if(!std::isnormal(v)) v = 0;
 
-                // 11a. If avgVar > avgSure set negative SURE to 0;
-                // otherwise, to magnitude
-                if(avgVar > avgSure)
-                    s = std::max(s, 0.0f);
-                else
-                    s = std::abs(s);
+            // 11a. If avgVar > avgSure set negative SURE to 0;
+            // otherwise, to magnitude
+            if(avgVar > avgSure)
+                s = std::max(s, 0.0f);
+            else
+                s = std::abs(s);
 
-                // 11b. Min. weight for DEN
-                int minWgh = CurvePredictor::calcMinWeight(v, s, img[j], spp[i]);
-                // 11c. Weight
-                weights[j] = CurvePredictor::denoisedWeight(s, curveParams[j],
-                                                            minWgh);
-            }
-            ImageLoader::saveExr(weights, w, h, weightsPath);
+            // 11b. Min. weight for DEN
+            int minWgh = CurvePredictor::calcMinWeight(v, s, img[j], spp[i]);
+            // 11c. Weight
+            weights[j] = CurvePredictor::denoisedWeight(s, curveParams[j],
+                                                        minWgh);
         }
         ImageLoader::saveExr(weights, w, h, weightsPath); // For debug
         // 12. Blending
