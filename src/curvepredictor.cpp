@@ -121,7 +121,7 @@ std::vector<CurveParam> CurvePredictor::calcCurves(
                 break;
             }
         }
-        size_t idx1 = goodVals.size() - 1;
+        size_t idx1 = idx0 + goodVals.size() - 1;
         size_t len = idx1 - idx0 + 1;
         if(int(len) < 2)
             continue;
