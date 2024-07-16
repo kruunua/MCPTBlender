@@ -32,7 +32,7 @@ std::vector<float> ImageLoader::loadImage(const std::string &fileName,
                 size_t(width));
         file.readPixels(dw.min.y, dw.max.y);
 
-        size_t len = size_t(width * height) * 3;
+        size_t len = size_t(3 * width * height);
         std::vector<float> data(len);
         for(int i = 0; i < height; i++)
         {
@@ -70,7 +70,7 @@ std::vector<CurveParam> ImageLoader::loadCurves(const std::string &name0,
     if(intercept.empty())
         return params;
 
-    params.resize(size_t(w * h));
+    params.resize(size_t(3 * w * h));
     for(size_t i = 0; i < params.size(); i++)
     {
         params[i].first = slope[i];
@@ -86,9 +86,9 @@ std::vector<int> ImageLoader::loadWeights(const std::string &name, int w, int h)
     if(weightsF.empty())
         return weights;
 
-    weights.resize(size_t(w * h));
+    weights.resize(size_t(3 * w * h));
     for(size_t i = 0; i < weights.size(); i++)
-        weights[i] = int(std::round(weightsF[i]));
+        weights[i] = int(std::round(weightsF[i] * 100000.f));
 
     return weights;
 }
@@ -150,9 +150,9 @@ bool ImageLoader::saveExr(const std::vector<int> &data, int w, int h,
         for(int x = 0; x < w; x++)
         {
             pixels[y][x] = Imf::Rgba(
-                        float(ptr[0]),
-                        float(ptr[1]),
-                        float(ptr[2]));
+                        ptr[0] / 100000.f,
+                        ptr[1] / 100000.f,
+                        ptr[2] / 100000.f);
             ptr += 3;
         }
     }
