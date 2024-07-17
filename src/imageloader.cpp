@@ -279,10 +279,10 @@ std::vector<float> ImageLoader::diff(const std::vector<float> &img,
         float rdiff = img[i] - ref[i];
         float gdiff = img[i + 1] - ref[i + 1];
         float bdiff = img[i + 2] - ref[i + 2];
-        float d = std::abs(rdiff + gdiff + bdiff);
-        diffVec[i] = d * d / mean;
-        diffVec[i + 1] = d * d / mean;
-        diffVec[i + 2] = d * d / mean;
+        float d = rdiff * rdiff + gdiff * gdiff + bdiff * bdiff;
+        diffVec[i] = d / mean;
+        diffVec[i + 1] = d / mean;
+        diffVec[i + 2] = d / mean;
     }
     return diffVec;
 }
